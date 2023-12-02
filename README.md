@@ -10,7 +10,8 @@ Durante a autenticação, o cliente obtém um código de autorização do servid
 
 A principal vantagem do OAuth 2.0 é a capacidade de delegar permissões de acesso limitadas, sem a necessidade de compartilhar credenciais sensíveis. Isso melhora a segurança e a experiência do usuário, ao mesmo tempo em que facilita a integração entre serviços.
 
-##  OpenID Connect (OIDC)
+## OpenID Connect (OIDC)
+
 O OpenID Connect (OIDC) é uma extensão do OAuth 2.0 e fornece uma camada de autenticação para o protocolo de autorização. Enquanto o OAuth 2.0 é focado na autorização e no acesso a recursos protegidos, o OpenID Connect visa fornecer um método padronizado para autenticar usuários, permitindo que clientes obtenham informações sobre a identidade do usuário autenticado. Em essência, o OpenID Connect adiciona uma camada de identidade ao OAuth 2.0.
 
 No contexto do OpenID Connect, os três principais participantes (atores) são o usuário (proprietário do recurso), o cliente (aplicativo solicitante) e o provedor de identidade (servidor de autorização que suporta OIDC). O fluxo típico envolve o cliente autenticando o usuário no provedor de identidade, que então emite um token de ID (ID Token) contendo informações sobre a identidade do usuário, como nome, e-mail e outras informações específicas.
@@ -26,12 +27,12 @@ Patrocinado pela Red Hat, o Keycloak é um software open source de um servidor J
 (2) https://quay.io/repository/keycloak/keycloak
 
 Ao rodar o docker compose, se tudo deu certo, estaremos com um keycloak rodando e conectado a uma base mysql! Acessando a porta 8888 veremos a interface inicial do nosso keycloak:
-![Alt text](image.png)
+![Alt text](imgs/image.png)
 Após login:
-![Alt text](image-1.png)
+![Alt text](imgs/image-1.png)
 
 Crie um usuário na interface
-![Alt text](image-2.png)
+![Alt text](imgs/image-2.png)
 
 Vamos ver no banco se o usuário está persistido:
 Entre no bash do container "db"
@@ -51,3 +52,52 @@ Buscando os usuários atualmente cadastrados na base
 ```
 use keycloak; select * from user_entity;
 ```
+
+## Usuários e senhas
+
+### Características
+
+Caso você precise migrar usuários de outra base/autenticador para o Keycloak, saiba que:
+
+- é necessário que os usuários estejam na base do Keycloak
+- as senhas tem de ser compatíveis
+- o Keycloak tem suporte a atributos extras para os usuários
+
+Criando um usuário:
+
+![Alt text](imgs/image-3.png)
+Adicionando um atributo extra ao usuário
+![Alt text](imgs/image-4.png)
+Setando uma senha
+![Alt text](imgs/image-5.png)
+
+Acima criamos um usuário de aplicação. Vamos agora criar um outro usuário administrativo!
+Saiba que o client que o usuário precisa acessar
+é este abaixo:
+![Alt text](imgs/imag6.png)
+Criamos um usuário conforme imagem abaixo e logamos no client acima, ainda não temos, entretanto permissões suficientes para sermos considerados adms
+![Alt text](imgs/imag7.png)
+Nossas roles: a default-roles-xxxx dá permissões básicas ao usuário
+![Alt text](imgs/image8.png)
+Como então resolver isso? Atribuiremos a role "admin" para o usuário novo
+E veja só, o nosso usuário agora é um administrador
+![Alt text](imgs/image10.png)
+
+## Realms
+
+Em Keycloak, um "realm" (em português, reino) é uma instância isolada e independente que contém configurações de segurança, usuários, grupos e clientes de aplicativos. Em termos simples, um realm é um espaço lógico e separado dentro do sistema Keycloak.
+
+Cada realm em Keycloak opera de forma independente, com sua própria base de usuários, políticas de segurança e configurações específicas. Isso permite que organizações criem ambientes seguros e isolados para diferentes aplicativos, serviços ou partes de sua infraestrutura.
+
+Criando um novo REALM:
+![Alt text](imgs/image11.png)
+Se você criou um usuário nesse novo REALM e quer que este usuário seja um admin nesse contexto, atribua a role realm-admin que é uma role composta, tal como a a imagem abaixo:
+![Alt text](image.png)
+
+## Roles e Grupos
+
+Bem, Roles são permissões(papel) do usuário, o que o usuário pode fazer no keycloak e/ou nas aplicações seguras pelo kc. As categorias de roles são:
+
+1 - Realm Roles
+2 - 
+
