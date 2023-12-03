@@ -99,5 +99,13 @@ Se você criou um usuário nesse novo REALM e quer que este usuário seja um adm
 Bem, Roles são permissões(papel) do usuário, o que o usuário pode fazer no keycloak e/ou nas aplicações seguras pelo kc. As categorias de roles são:
 
 1 - Realm Roles
-2 - 
+2 - Client Roles
 
+Vamos lembrar que 
+access_token -> representa a autorização
+id_token -> representa a autenticação
+
+Gerando o access_token
+![Alt text](image-1.png)
+
+Gerando o id_token

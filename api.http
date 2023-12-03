@@ -1,0 +1,19 @@
+### Gerando access_token
+POST http://localhost:8888/realms/NovoRealm/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+client_id=NossoClient
+&username=josemateus
+&password=123
+&grant_type=password
+
+
+### Gerando id token e access token
+POST http://localhost:8888/realms/NovoRealm/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+client_id=NossoClient
+&username=josemateus
+&password=123
+&grant_type=password
+&scope=openid
