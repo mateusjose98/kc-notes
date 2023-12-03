@@ -101,7 +101,7 @@ Bem, Roles são permissões(papel) do usuário, o que o usuário pode fazer no k
 1 - Realm Roles
 2 - Client Roles
 
-Vamos lembrar que 
+Vamos lembrar que
 access_token -> representa a autorização
 id_token -> representa a autenticação
 
@@ -109,3 +109,10 @@ Gerando o access_token
 ![Alt text](image-1.png)
 
 Gerando o id_token
+basta repetir a requisição anterior solicitando o scope=openid, o retorno conterá o acess_token e o id_token
+
+## Fluxos de autenticação
+
+### Auth Code Flow
+
+![Alt text](authentication/code-flow/code.png)
