@@ -110,7 +110,7 @@ Gerando o access_token
 
 Gerando o id_token
 basta repetir a requisição anterior solicitando o scope=openid, o retorno conterá o acess_token e o id_token
-
+Perceba que adicionamos aos parâmetros uma informação chamada "grat_type" que aponta para o keycloak qual o fluxo de autenticação estaremos utilizando. Veremos a seguir como funcionam as opções.
 ## Fluxos de autenticação
 
 ### Auth Code Flow
