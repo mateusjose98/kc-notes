@@ -105,12 +105,71 @@ Vamos lembrar que
 access_token -> representa a autorização
 id_token -> representa a autenticação
 
+
 Gerando o access_token
 ![Alt text](image-1.png)
 
 Gerando o id_token
 basta repetir a requisição anterior solicitando o scope=openid, o retorno conterá o acess_token e o id_token
 Perceba que adicionamos aos parâmetros uma informação chamada "grat_type" que aponta para o keycloak qual o fluxo de autenticação estaremos utilizando. Veremos a seguir como funcionam as opções.
+
+
+1 - CRIAR UM USUARIO COM AS Roles de clientes manage_users DE realm_managament,NO CASO super_usuario
+2 - PEGAR UM TOKEN DE SUPER USUARIO
+```
+curl --location 'https://auth.empresa.com.br/realms/{REALM_NAME}/protocol/openid-connect/token' \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--data-urlencode 'username=super_usuario' \
+--data-urlencode 'password=123' \
+--data-urlencode 'grant_type=password' \
+--data-urlencode 'scope=openid' \
+--data-urlencode 'client_id=app-integration-mais-empresa-ui
+3 - BUSCAR O USUARIO PELO ID
+curl --location 'https://auth.empresa.com.br/admin/realms/{REALM_NAME}/users/ae9b205b-4fe4-4991-b2d5-fff5a1db2514' \
+--header 'Authorization: Bearer eyJhbGc......'
+```
+
+4 - ATUALIZAR, EM CASO DE SUCESSO, RETORNA 204
+```
+curl --location --request PUT 'https://auth.empresa.com.br/admin/realms/{REALM_NAME}/users/ae9b205b-4fe4-4991-b2d5-fff5a1db2514' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Bearer eyJhbG....' \
+--data-raw '{
+    "id": "ae9b205b-4fe4-4991-b2d5-fff5a1db2514",
+    "createdTimestamp": 1694523616722,
+    "username": "12332112321",
+    "enabled": true,
+    "totp": false,
+    "emailVerified": true,
+    "firstName": "Teste de troca via REST API",
+    "lastName": "RibeiroRego",
+    "email": "nomePessoa@empresa.com.br",
+    "disableableCredentialTypes": [],
+    "requiredActions": [],
+    "notBefore": 0,
+    "access": {
+        "manageGroupMembership": true,
+        "view": true,
+        "mapRoles": true,
+        "impersonate": true,
+        "manage": true
+    }
+}'
+```
+
+4.1 - ATUALIZAR SENHA DE UM USUÁRIO
+```
+curl --location --request PUT 'https://auth.empresa.com.br/admin/realms/{REALM_NAME}/users/ae9b205b-4fe4-4991-b2d5-fff5a1db2514/reset-password' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Bearer eyJhbG............' \
+--data '{
+    "type": "password",
+    "temporary": false,
+    "value": "000"
+}'
+```
+
+
 ## Fluxos de autenticação
 
 ### Auth Code Flow
